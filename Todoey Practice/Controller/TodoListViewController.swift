@@ -26,7 +26,11 @@ class TodoListViewController: UITableViewController {
         newItem2.done = false
         
         itemArray.append(newItem)
-        itemArray.append(newItem2e)
+        itemArray.append(newItem2)
+        
+        if let items = defaults.array(forKey: "ToDoList") as? [Item] {
+            itemArray =  items
+        }
         
         
     }
@@ -35,13 +39,16 @@ class TodoListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let item = itemArray[indexPath.row]
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath)
         
-        cell.textLabel?.text = itemArray[indexPath.row].title
+        cell.textLabel?.text = item.title
         
-        itemArray[indexPath.row].done == true ? (cell.accessoryType = .checkmark) : (cell.accessoryType = .none)
+        cell.accessoryType = item.done ? .checkmark : .none
         
-        print("Datasource called")
+ 
+        
 //        if itemArray[indexPath.row].done == true {
 //            cell.accessoryType = .checkmark
 //
@@ -49,6 +56,7 @@ class TodoListViewController: UITableViewController {
 //            cell.accessoryType = .none
 //        }
         
+        print("Datasource called")
         return cell
         
     }
